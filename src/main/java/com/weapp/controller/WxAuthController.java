@@ -5,6 +5,8 @@ import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.weapp.entity.app.TUser;
+import com.weapp.service.TUserService;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +35,9 @@ public class WxAuthController extends BaseController{
 	private WxService wxService;
 	@Autowired
 	private RedisUtil redisUtil;
+	@Autowired
+	private TUserService tUserService;
+
 
 	/**
 	 * 根据客户端传过来的code从微信服务器获取appid和session_key，然后生成3rdkey返回给客户端，后续请求客户端传3rdkey来维护客户端登录态
@@ -44,8 +49,15 @@ public class WxAuthController extends BaseController{
 	@Api(name = ApiConstant.WX_CODE)
 	@RequestMapping(value = "/api/v1/wx/getSession", method = RequestMethod.GET, produces = "application/json")
 	public Map<String,Object> createSssion(@RequestParam(required = true,value = "code")String wxCode){
-		Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
 
+
+		return  rtnParam(0, ImmutableMap.of("sessionId","helloworld"));
+		/*TUser user = tUserService.getByAppId(wxCode);
+
+		if(null == user){
+			return rtnParam(50030, null);	//用户没有权限
+		}
+		Map<String,Object> wxSessionMap = wxService.getWxSession(wxCode);
 		if(null == wxSessionMap){
 			return rtnParam(50010, null);
 		}
@@ -58,7 +70,7 @@ public class WxAuthController extends BaseController{
 		System.out.println(wxSessionKey);
 		Long expires = Long.valueOf(String.valueOf(wxSessionMap.get("expires_in")));
 		String thirdSession = wxService.create3rdSession(wxOpenId, wxSessionKey, expires);
-		return rtnParam(0, ImmutableMap.of("sessionId",thirdSession));
+		return rtnParam(0, ImmutableMap.of("sessionId",thirdSession));*/
 	}
 
 	/**

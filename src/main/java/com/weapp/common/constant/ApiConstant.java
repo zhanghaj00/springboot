@@ -38,4 +38,16 @@ public class ApiConstant {
 	
 	/* club社区专栏文章搜索 */
 	public static final String WX_CLUB_SEARCH = "WX_CLUB_SEARCH";
+
+	/* 插入用户商品信息  */
+	public static final String WX_PD_INSERT = "WX_PD_INSERT";
+
+	/* 修改用户商品信息  */
+	public static final String WX_PD_EDIT = "WX_PD_EDIT";
+
+	/* 获取用户信息  */
+	public static final String WX_PD_QUERY = "WX_PD_QUERY";
+
+	/* 获取用户信息  */
+	public static final String WX_PD_QUERY_GROUP_MODULE = "WX_PD_QUERY_GROUP_MODULE";
 }
