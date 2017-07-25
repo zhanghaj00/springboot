@@ -48,6 +48,9 @@ public class ApiConstant {
 	/* 获取用户信息  */
 	public static final String WX_PD_QUERY = "WX_PD_QUERY";
 
-	/* 获取用户信息  */
+	/* 获取用户模块信息  */
 	public static final String WX_PD_QUERY_GROUP_MODULE = "WX_PD_QUERY_GROUP_MODULE";
+
+	/* 添加用户模块信息  */
+	public static final String WX_PD_INSERT_MODULE = "WX_PD_INSERT_MODULE";
 }

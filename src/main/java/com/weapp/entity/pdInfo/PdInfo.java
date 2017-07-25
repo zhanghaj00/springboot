@@ -31,15 +31,21 @@ public class PdInfo {
 
     private String pdName;
 
-    private String pdPic;
+    private String pdPic;           //主图片
 
-    private String pdDesc;
+    private String pdDesc;          //描述
 
-    private String pdVideo;
+    private String pdVideo;         //视频
 
-    private String pdPrice;
+    private String pdPrice;         //价格
 
-    private String pdStore;
+    private String pdStore;        //库存
+
+    private String pdPicMore;   //详情图片
+
+    private String pdBuyNum;  //总购买数量
+
+
 
 
 }

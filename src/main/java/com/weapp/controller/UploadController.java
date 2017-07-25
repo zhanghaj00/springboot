@@ -34,19 +34,13 @@ public class UploadController extends BaseController{
 	 */
 	@Api(name = ApiConstant.UPLOAD_IMAGE)
 	@RequestMapping(value = "/api/v1/upload/image", method = RequestMethod.POST, produces = "application/json")
-	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile file){
+	public Map<String,Object> uploadImage(@RequestParam(required=true,value="file")MultipartFile[] file){
 		if(null == file){
 			return rtnParam(40010, null);
 		}
 		String random = RandomStringUtils.randomAlphabetic(16);
 		String fileName = random + ".jpg";
-		try {
-			String uploadDirName = imgLocalPath.substring(imgLocalPath.lastIndexOf("/"), imgLocalPath.length());
-			FileCopyUtils.copy(file.getBytes(), new File(imgLocalPath + "/", fileName));
-			return rtnParam(0, ImmutableMap.of("url", imgHost + uploadDirName + "/" + fileName));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return rtnParam(40011, null);
+
+		return rtnParam(0, ImmutableMap.of("pdPic",fileName));
 	}
 }

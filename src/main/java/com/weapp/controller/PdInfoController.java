@@ -8,7 +8,9 @@ import com.google.common.collect.ImmutableMap;
 import com.weapp.common.annotation.Api;
 import com.weapp.common.constant.ApiConstant;
 import com.weapp.common.constant.ErrorResponse;
+import com.weapp.entity.pdInfo.PdCategory;
 import com.weapp.entity.pdInfo.PdInfo;
+import com.weapp.service.PdCategoryService;
 import com.weapp.service.PdInfoSerivce;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +32,9 @@ public class PdInfoController extends BaseController {
 
     @Autowired
     private PdInfoSerivce pdInfoSerivce;
+
+    @Autowired
+    private PdCategoryService pdCategoryService;
 
 
     @ApiOperation(value = "插入商品信息", notes = "根据用户的appid插入用户信息")
@@ -75,20 +80,18 @@ public class PdInfoController extends BaseController {
     @RequestMapping(value = "/api/v1/wx/queryPdInfoModule", method = RequestMethod.GET, produces = "application/json")
     public Map<String,Object> queryPdInfoGroupByModule(@RequestParam(required = true,value = "code")String wxCode){
         if(null == wxCode) return rtnParam(50030, new ErrorResponse("用户ID 不能为空"));
-        List<PdInfo> infos = pdInfoSerivce.findByAppId(wxCode);
-        return rtnParam(0, ImmutableMap.of("pdInfos", groupByModule(infos)));
+        List<PdCategory> infos = pdCategoryService.findByAppId(wxCode);
+        return rtnParam(0, ImmutableMap.of("pdInfos",infos));
     }
 
-    private List<PdInfo> groupByModule(List<PdInfo> pdInfos){
-        List<PdInfo> newList = new ArrayList<>();
-        Set<String> moduleList = new HashSet<>();
-        for(PdInfo pdInfo:pdInfos){
-            if(!moduleList.contains(pdInfo.getModuleId())){
-                moduleList.add(pdInfo.getModuleId());
-                newList.add(pdInfo);
-            }
-        }
-        return newList;
-
+    @ApiOperation(value = "插入商品MODULE", notes = "根据用户的appid获取用户的商品和模块信息")
+    @ApiImplicitParam(name = "code", value = "用户登录回调内容会带上 ", required = true, dataType = "String")
+    @Api(name = ApiConstant.WX_PD_INSERT_MODULE)
+    @RequestMapping(value = "/api/v1/wx/insertPdModule", method = RequestMethod.POST, produces = "application/json")
+    public Map<String,Object> insertPdModule(@RequestParam(required = true,value = "code")String wxCode,PdCategory pdCategory){
+        if(null == wxCode) return rtnParam(50030, new ErrorResponse("用户ID 不能为空"));
+        pdCategory.setAppId(wxCode);
+        pdCategory = pdCategoryService.insert(pdCategory);
+        return rtnParam(0, ImmutableMap.of("pdCategory",pdCategory));
     }
 }
