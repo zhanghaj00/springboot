@@ -1,7 +1,7 @@
 /**
  * Create time
  */
-package com.weapp.entity.pdInfo;
+package com.weapp.entity.shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,21 +14,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * description。
  * @since 1.9.0
  */
-@Document(collection="pd_Category")
+@Document(collection="Shop_info")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PdCategory {
+public class Shop {
 
     @Id
     private String id;
 
-    private String appId;       //用户ID
+    private String shopName;
 
-    private String moduleName;
-
-    private String sortId;      //排序
-
-    private String avatar;
-
+    private String shopId;
 }
